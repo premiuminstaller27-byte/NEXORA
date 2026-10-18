@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#03050b">
+<meta name="description" content="NEXORA — Turn your ideas into digital reality.">
+<title>NEXORA | Contact</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<canvas id="particles" aria-hidden="true"></canvas>
+<header>
+  <a class="logo" href="index.html">NEXORA<span>.</span></a>
+  <nav aria-label="Main navigation"><a class="" href="index.html">Home</a><a class="" href="services.html">Services</a><a class="active" href="contact.html">Contact</a><a class="nav-cta" href="contact.html">Let's Talk ↗</a></nav>
+</header>
+<main>
+
+<section class="page-hero reveal"><div class="eyebrow">LET'S BUILD SOMETHING</div><h1>Contact <span class="gradient">Us.</span></h1><p>Have an idea or want to ask about a service? Use the details below to get in touch.</p></section>
+<section class="section">
+  <div class="contact-wrap content-card reveal">
+    <h2>Start a conversation</h2>
+    <p style="margin-top:12px">Fill in this form to open an email draft in your default mail app. Replace the example email address in the code with your real contact email before publishing.</p>
+    <form class="contact-form" id="contactForm">
+      <label>Your name<input id="name" name="name" required placeholder="Enter your name"></label>
+      <label>Your email<input id="email" name="email" type="email" required placeholder="you@example.com"></label>
+      <label>What do you need?<textarea id="message" name="message" required placeholder="Tell us about your project"></textarea></label>
+      <button class="primary-btn" type="submit">Prepare Email ↗</button>
+    </form>
+  </div>
+</section>
+<script>
+document.getElementById("contactForm").addEventListener("submit",function(e){
+  e.preventDefault();
+  const name=document.getElementById("name").value.trim();
+  const email=document.getElementById("email").value.trim();
+  const message=document.getElementById("message").value.trim();
+  const subject=encodeURIComponent("NEXORA project enquiry");
+  const body=encodeURIComponent("Name: "+name+"\\nEmail: "+email+"\\n\\nProject details:\\n"+message);
+  window.location.href="mailto:your-email@example.com?subject="+subject+"&body="+body;
+});
+</script>
+
+</main>
+<footer><strong>NEXORA.</strong><span>Make your dream true.</span><span>© <span id="year"></span> NEXORA. All rights reserved.</span></footer>
+<script src="script.js"></script>
+</body>
+</html>
