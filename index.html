@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#03050b">
+<meta name="description" content="NEXORA — Turn your ideas into digital reality.">
+<title>NEXORA | Make Your Dream True</title>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
+
+:root {
+  --blue: #168cff;
+  --cyan: #38e8ff;
+  --bg: #03050b;
+  --panel: #090f1d;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: #fff;
+  font-family: Inter, Arial, sans-serif;
+  overflow-x: hidden;
+}
+
+a { color: inherit; text-decoration: none; }
+
+button { font: inherit; }
+
+#particles {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  pointer-events: none;
+}
+
+header {
+  height: 80px;
+  padding: 0 7%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid #142238;
+  background: rgba(3,5,11,.82);
+  backdrop-filter: blur(15px);
+  position: sticky;
+  top: 0;
+  z-index: 20;
+}
+
+.logo {
+  font-size: 26px;
+  font-weight: 900;
+  letter-spacing: 3px;
+  color: var(--cyan);
+  text-shadow: 0 0 20px #168cff80;
+}
+
+nav { display: flex; gap: 30px; align-items: center; }
+
+nav a {
+  color: #b9c8df;
+  font-size: 13px;
+  transition: .3s;
+}
+
+nav a:hover { color: var(--cyan); }
+
+.nav-cta, .primary-btn {
+  border: 1px solid #38e8ff80;
+  border-radius: 7px;
+  background: linear-gradient(120deg, #0875ff, #13c9ff);
+  color: white;
+  padding: 12px 19px;
+  font-weight: 700;
+  font-size: 13px;
+  box-shadow: 0 0 25px #0875ff35;
+  display: inline-block;
+  cursor: pointer;
+  transition: .3s;
+}
+
+.nav-cta:hover, .primary-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 0 35px #168cff80;
+}
+
+.hero {
+  min-height: 680px;
+  padding: 75px 7% 90px;
+  display: grid;
+  grid-template-columns: 1.05fr .95fr;
+  align-items: center;
+  gap: 30px;
+  position: relative;
+}
+
+.eyebrow {
+  color: var(--cyan);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 4px;
+  margin-bottom: 24px;
+}
+
+h1 {
+  font-size: clamp(43px, 6vw, 78px);
+  line-height: 1.06;
+  letter-spacing: -4px;
+  font-weight: 900;
+}
+
+.gradient {
+  background: linear-gradient(100deg, #fff 0%, #38e8ff 35%, #168cff 75%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.hero-copy {
+  margin-top: 25px;
+  max-width: 480px;
+  color: #95a7c3;
+  font-size: 15px;
+  line-height: 1.9;
+}
+
+.hero-actions {
+  margin-top: 32px;
+  display: flex;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+
+.secondary-btn {
+  padding: 12px 19px;
+  border: 1px solid #263954;
+  border-radius: 7px;
+  color: #dceaff;
+  font-size: 13px;
+  transition: .3s;
+}
+
+.secondary-btn:hover {
+  border-color: var(--cyan);
+  color: var(--cyan);
+}
+
+.status {
+  margin-top: 32px;
+  color: #7388a6;
+  font-size: 11px;
+  letter-spacing: 1px;
+}
+
+.status span {
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--cyan);
+  box-shadow: 0 0 12px var(--cyan);
+  margin-right: 8px;
+}
+
+/* Interactive 3D centerpiece */
+
+.scene {
+  min-height: 430px;
+  position: relative;
+  display: grid;
+  place-items: center;
+  perspective: 900px;
+  overflow: hidden;
+}
+
+.scene-glow {
+  position: absolute;
+  width: 260px;
+  height: 260px;
+  background: #0875ff;
+  filter: blur(110px);
+  opacity: .3;
+  border-radius: 50%;
+}
+
+.orbit {
+  position: absolute;
+  width: min(390px, 90%);
+  aspect-ratio: 1;
+  border: 1px solid #168cff55;
+  border-radius: 50%;
+  transform-style: preserve-3d;
+  box-shadow: 0 0 25px #168cff10, inset 0 0 25px #168cff10;
+}
+
+.orbit.one { transform: rotateX(68deg) rotateZ(-20deg); }
+.orbit.two { transform: rotateY(68deg) rotateZ(20deg); }
+.orbit.three {
+  width: min(290px, 70%);
+  transform: rotateX(70deg) rotateZ(60deg);
+  border-color: #38e8ff75;
+}
+
+.core {
+  width: 140px;
+  height: 140px;
+  position: relative;
+  transform-style: preserve-3d;
+  animation: levitate 5s ease-in-out infinite;
+}
+
+.cube {
+  position: absolute;
+  inset: 0;
+  transform-style: preserve-3d;
+  animation: rotateCube 16s linear infinite;
+}
+
+.face {
+  position: absolute;
+  width: 140px;
+  height: 140px;
+  border: 2px solid #38e8ff;
+  background: linear-gradient(135deg, #168cff30, #03050b80);
+  box-shadow: inset 0 0 35px #168cff20, 0 0 18px #168cff20;
+  backdrop-filter: blur(3px);
+}
+
+.front  { transform: translateZ(70px); }
+.back   { transform: rotateY(180deg) translateZ(70px); }
+.right  { transform: rotateY(90deg) translateZ(70px); }
+.left   { transform: rotateY(-90deg) translateZ(70px); }
+.top    { transform: rotateX(90deg) translateZ(70px); }
+.bottom { transform: rotateX(-90deg) translateZ(70px); }
+
+.core-light {
+  position: absolute;
+  inset: 40px;
+  border-radius: 50%;
+  background: var(--cyan);
+  filter: blur(35px);
+  opacity: .8;
+}
+
+.orbit-dot {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--cyan);
+  box-shadow: 0 0 22px 5px #168cff80;
+  top: 14%;
+  left: 18%;
+}
+
+.scene-label {
+  position: absolute;
+  bottom: 18px;
+  color: #7289aa;
+  font-size: 10px;
+  letter-spacing: 4px;
+}
+
+.section {
+  padding: 95px 7%;
+}
+
+.section-heading { text-align: center; }
+
+.section-heading h2 {
+  font-size: clamp(30px, 4vw, 45px);
+  letter-spacing: -1.5px;
+  margin-bottom: 16px;
+}
+
+.section-heading p {
+  color: #91a2bd;
+  font-size: 14px;
+  line-height: 1.8;
+}
+
+.services {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 22px;
+  margin-top: 50px;
+}
+
+.service-card {
+  min-width: 0;
+  padding: 30px 25px;
+  border: 1px solid #192d49;
+  border-radius: 13px;
+  background: linear-gradient(145deg, #0c1628d9, #050913f2);
+  position: relative;
+  overflow: hidden;
+  transition: transform .3s, border-color .3s, box-shadow .3s;
+}
+
+.service-card:hover {
+  transform: translateY(-8px);
+  border-color: #168cff;
+  box-shadow: 0 15px 45px #0875ff15;
+}
+
+.service-icon {
+  width: 53px;
+  height: 53px;
+  border-radius: 12px;
+  display: grid;
+  place-items: center;
+  color: var(--cyan);
+  font-size: 25px;
+  border: 1px solid #168cff65;
+  background: #168cff15;
+  margin-bottom: 25px;
+}
+
+.service-card h3 { font-size: 18px; margin-bottom: 13px; }
+
+.service-card p {
+  color: #91a2bd;
+  font-size: 13px;
+  line-height: 1.8;
+  min-height: 70px;
+}
+
+.price {
+  margin-top: 23px;
+  color: var(--cyan);
+  font-size: 21px;
+  font-weight: 800;
+}
+
+.price small {
+  color: #7d91ad;
+  font-size: 11px;
+  font-weight: 400;
+}
+
+.service-link {
+  display: inline-block;
+  margin-top: 22px;
+  font-size: 12px;
+  color: #dceaff;
+}
+
+.service-link:hover { color: var(--cyan); }
+
+.banner {
+  margin: 20px 7% 100px;
+  padding: 65px 25px;
+  text-align: center;
+  border: 1px solid #168cff45;
+  border-radius: 16px;
+  background:
+    radial-gradient(ellipse at center, #0875ff1d, transparent 65%),
+    #070c16;
+}
+
+.banner h2 {
+  font-size: clamp(28px, 5vw, 48px);
+  letter-spacing: -2px;
+  margin-bottom: 17px;
+}
+
+.banner p {
+  color: #94a6c1;
+  font-size: 13px;
+  line-height: 1.8;
+  margin-bottom: 25px;
+}
+
+footer {
+  padding: 28px 7%;
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  flex-wrap: wrap;
+  border-top: 1px solid #142238;
+  color: #7185a2;
+  font-size: 11px;
+}
+
+footer strong { color: var(--cyan); letter-spacing: 2px; }
+
+.reveal {
+  opacity: 0;
+  transform: translateY(22px);
+  transition: opacity .7s, transform .7s;
+}
+
+.reveal.visible { opacity: 1; transform: translateY(0); }
+
+@keyframes rotateCube {
+  from { transform: rotateX(0deg) rotateY(0deg) rotateZ(0deg); }
+  to { transform: rotateX(360deg) rotateY(360deg) rotateZ(180deg); }
+}
+
+@keyframes levitate {
+  0%, 100% { transform: translateY(0) rotateY(-8deg); }
+  50% { transform: translateY(-17px) rotateY(8deg); }
+}
+
+@media (max-width: 850px) {
+  .hero { grid-template-columns: 1fr; padding-top: 65px; }
+  .scene { min-height: 390px; }
+  .services { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 560px) {
+  header { height: 70px; padding: 0 5%; }
+  .logo { font-size: 22px; }
+  nav { gap: 13px; }
+  nav a { font-size: 11px; }
+  nav .nav-cta { padding: 9px 10px; font-size: 11px; }
+  .hero { padding: 60px 6% 55px; gap: 10px; }
+  h1 { letter-spacing: -2px; }
+  .scene { min-height: 330px; }
+  .section { padding: 65px 6%; }
+  .services { grid-template-columns: 1fr; }
+  .service-card p { min-height: auto; }
+  .banner { margin: 10px 6% 65px; padding: 48px 20px; }
+  footer { padding: 25px 6%; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: .01ms !important;
+    scroll-behavior: auto !important;
+    transition-duration: .01ms !important;
+  }
+}
+</style>
+</head>
+
+<body>
+<canvas id="particles" aria-hidden="true"></canvas>
+
+<header>
+  <a class="logo" href="#home">NEXORA<span>.</span></a>
+  <nav aria-label="Main navigation">
+    <a href="#home">Home</a>
+    <a href="#services">Services</a>
+    <a class="nav-cta" href="#services">Explore</a>
+  </nav>
+</header>
+
+<main>
+  <section class="hero" id="home">
+    <div class="hero-content">
+      <div class="eyebrow">INNOVATION • DESIGN • FUTURE</div>
+      <h1>MAKE YOUR<br>DREAM <span class="gradient">TRUE.</span></h1>
+      <p class="hero-copy">
+        Your ideas deserve more than ordinary.
+        Discover a new digital experience with NEXORA,
+        where imagination meets technology.
+      </p>
+      <div class="hero-actions">
+        <a href="#services" class="primary-btn">Explore Services ↗</a>
+        <a href="#about" class="secondary-btn">Discover NEXORA</a>
+      </div>
+      <div class="status"><span></span> BUILT FOR YOUR NEXT BIG IDEA</div>
+    </div>
+
+    <div class="scene" id="scene" aria-label="Animated three-dimensional geometric sculpture">
+      <div class="scene-glow"></div>
+      <div class="orbit one"><i class="orbit-dot"></i></div>
+      <div class="orbit two"></div>
+      <div class="orbit three"></div>
+      <div class="core">
+        <div class="core-light"></div>
+        <div class="cube">
+          <div class="face front"></div>
+          <div class="face back"></div>
+          <div class="face right"></div>
+          <div class="face left"></div>
+          <div class="face top"></div>
+          <div class="face bottom"></div>
+        </div>
+      </div>
+      <div class="scene-label">IMAGINE • CREATE • ELEVATE</div>
+    </div>
+  </section>
+
+  <section class="section" id="services">
+    <div class="section-heading reveal">
+      <div class="eyebrow">WHAT WE CREATE</div>
+      <h2>Ideas into <span class="gradient">Reality.</span></h2>
+      <p>Creative digital solutions designed to help your ideas stand out.</p>
+    </div>
+
+    <div class="services">
+      <article class="service-card reveal">
+        <div class="service-icon">⌘</div>
+        <h3>Website Creation</h3>
+        <p>Modern, responsive websites for your brand, project or business.</p>
+        <div class="price">₹350+ <small>/ project</small></div>
+        <a class="service-link" href="#about">Discover more ↗</a>
+      </article>
+
+      <article class="service-card reveal">
+        <div class="service-icon">▧</div>
+        <h3>Poster Creation</h3>
+        <p>Eye-catching digital posters for promotions, events and ideas.</p>
+        <div class="price">₹100+ <small>/ design</small></div>
+        <a class="service-link" href="#about">Discover more ↗</a>
+      </article>
+
+      <article class="service-card reveal">
+        <div class="service-icon">▶</div>
+        <h3>Thumbnail Creation</h3>
+        <p>Bold thumbnails designed to make your video content stand out.</p>
+        <div class="price">₹200+ <small>/ design</small></div>
+        <a class="service-link" href="#about">Discover more ↗</a>
+      </article>
+    </div>
+  </section>
+
+  <section class="banner reveal" id="about">
+    <div class="eyebrow">YOUR VISION. OUR MISSION.</div>
+    <h2>Ready to create <span class="gradient">something new?</span></h2>
+    <p>Every great digital idea starts with a first step.<br>
+       Let your imagination lead the way.</p>
+    <a href="#home" class="primary-btn">Back to the Future ↑</a>
+  </section>
+</main>
+
+<footer>
+  <strong>NEXORA.</strong>
+  <span>Make your dream true.</span>
+  <span>© <span id="year"></span> NEXORA. All rights reserved.</span>
+</footer>
+
+<script>
+document.getElementById("year").textContent = new Date().getFullYear();
+
+// Animated blue particles
+const canvas = document.getElementById("particles");
+const ctx = canvas.getContext("2d");
+let particles = [];
+let width, height;
+let frame = 0;
+
+function resize() {
+  const dpr = Math.min(window.devicePixelRatio || 1, 2);
+  width = window.innerWidth;
+  height = window.innerHeight;
+  canvas.width = width * dpr;
+  canvas.height = height * dpr;
+  canvas.style.width = width + "px";
+  canvas.style.height = height + "px";
+  ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+  const count = Math.min(85, Math.floor(width / 13));
+  particles = Array.from({ length: count }, () => ({
+    x: Math.random() * width,
+    y: Math.random() * height,
+    r: Math.random() * 1.7 + .3,
+    speed: Math.random() * .35 + .08,
+    alpha: Math.random() * .6 + .15
+  }));
+}
+
+function animateParticles() {
+  ctx.clearRect(0, 0, width, height);
+  const reduce = window.matchMedia(
+    "(prefers-reduced-motion: reduce)"
+  ).matches;
+
+  particles.forEach(p => {
+    if (!reduce) {
+      p.y -= p.speed;
+      if (p.y < -5) {
+        p.y = height + 5;
+        p.x = Math.random() * width;
+      }
+    }
+
+    ctx.beginPath();
+    ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+    ctx.fillStyle = `rgba(56,232,255,${p.alpha})`;
+    ctx.fill();
+  });
+
+  frame = requestAnimationFrame(animateParticles);
+}
+
+window.addEventListener("resize", resize);
+resize();
+animateParticles();
+
+// Reveal sections when scrolling
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add("visible");
+      observer.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.12 });
+
+document.querySelectorAll(".reveal").forEach(el => observer.observe(el));
+
+// Subtle pointer-controlled 3D scene
+const scene = document.getElementById("scene");
+const core = document.querySelector(".core");
+
+scene.addEventListener("pointermove", e => {
+  if (e.pointerType === "touch") return;
+
+  const r = scene.getBoundingClientRect();
+  const x = (e.clientX - r.left) / r.width - .5;
+  const y = (e.clientY - r.top) / r.height - .5;
+
+  core.style.animation = "none";
+  core.style.transform =
+    `translateY(-8px) rotateX(${-y * 25}deg) rotateY(${x * 30}deg)`;
+});
+
+scene.addEventListener("pointerleave", () => {
+  core.style.transform = "";
+  core.style.animation = "";
+});
+</script>
+</body>
+</html>
